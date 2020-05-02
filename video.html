@@ -17,21 +17,28 @@
 
     <script src="simplepeer.min.js"></script>
     <script>
+      const isInitiator = location.hash === "#1";
 
-      // get video/voice stream
-      navigator.mediaDevices
-        .getUserMedia({
-          video: true,
-          audio: true,
-        })
-        .then(gotMedia)
-        .catch(() => {});
+      function getMedia() {
+        if (isInitiator)
+          return navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+          });
+        // pra não incluir stream/mídia
+        return Promise.resolve(undefined);
+      }
+
+        // get video/voice stream
+        getMedia()
+          .then(gotMedia)
+          .catch(() => {});
 
       function gotMedia(stream) {
         p = new SimplePeer({
-          initiator: location.hash === "#1",
+          initiator: isInitiator,
           trickle: false,
-          stream: location.hash === "#1" ? stream : undefined,
+          stream,
         });
 
         p.on("error", (err) => console.log("error", err));
