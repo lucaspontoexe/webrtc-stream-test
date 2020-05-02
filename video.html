@@ -1,0 +1,71 @@
+<html>
+  <body>
+    <style>
+      #outgoing {
+        width: 600px;
+        word-wrap: break-word;
+        white-space: normal;
+      }
+    </style>
+    <form>
+      <textarea id="incoming"></textarea>
+      <button type="submit">submit</button>
+    </form>
+    <pre id="outgoing"></pre>
+
+    <video id="preview"></video>
+
+    <script src="simplepeer.min.js"></script>
+    <script>
+
+      // get video/voice stream
+      navigator.mediaDevices
+        .getUserMedia({
+          video: true,
+          audio: true,
+        })
+        .then(gotMedia)
+        .catch(() => {});
+
+      function gotMedia(stream) {
+        p = new SimplePeer({
+          initiator: location.hash === "#1",
+          trickle: false,
+          stream: location.hash === "#1" ? stream : undefined,
+        });
+
+        p.on("error", (err) => console.log("error", err));
+
+        p.on("signal", (data) => {
+          console.log("SIGNAL", JSON.stringify(data));
+          document.querySelector("#outgoing").textContent = JSON.stringify(
+            data
+          );
+        });
+
+        document.querySelector("form").addEventListener("submit", (ev) => {
+          ev.preventDefault();
+          p.signal(JSON.parse(document.querySelector("#incoming").value));
+        });
+
+        p.on("connect", () => {
+          console.log("CONNECT");
+          p.send("whatever" + Math.random());
+        });
+
+        p.on("data", (data) => {
+          console.log("data: " + data);
+        });
+
+        p.on("stream", (stream) => {
+          // got remote video stream, now let's show it in a video tag
+          var video = document.querySelector("video");
+
+          video.srcObject = stream;
+
+          video.play();
+        });
+      }
+    </script>
+  </body>
+</html>
