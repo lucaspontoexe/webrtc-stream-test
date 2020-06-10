@@ -11,21 +11,48 @@
       <textarea id="incoming"></textarea>
       <button type="submit">submit</button>
     </form>
+    <pre id="data"></pre>
     <pre id="outgoing"></pre>
 
     <video id="preview"></video>
 
     <script src="simplepeer.min.js"></script>
     <script>
+      const ws = new WebSocket("ws://192.168.0.36:9999");
+
+      let id = Math.floor(Math.random() * 1000);
+      document.querySelector("#incoming").onchange = (event) => {
+        id = event.target.value;
+      };
+
+      function sendSDP(data) {
+        ws.send(
+          JSON.stringify({
+            from: id,
+            payload: data,
+          }).replace('b=AS:30', 'b=AS:3000')
+        );
+      }
+
+      function handleMessage(event, p) {
+        const msg = JSON.parse(event.data);
+        if (msg.from === id) return;
+
+        p.signal(msg.payload);
+      }
 
       // get video/voice stream
       navigator.mediaDevices
         .getUserMedia({
-          video: true,
+          video: {
+            width:  { ideal: 1920 },
+            height: { ideal: 1080 },
+            facingMode: "environment",
+          },
           audio: true,
         })
         .then(gotMedia)
-        .catch(() => {});
+        .catch(console.log);
 
       function gotMedia(stream) {
         p = new SimplePeer({
@@ -37,16 +64,19 @@
         p.on("error", (err) => console.log("error", err));
 
         p.on("signal", (data) => {
+          sendSDP(data);
           console.log("SIGNAL", JSON.stringify(data));
-          document.querySelector("#outgoing").textContent = JSON.stringify(
-            data
-          );
+          // document.querySelector("#outgoing").textContent = JSON.stringify(
+          //   data
+          // );
         });
 
         document.querySelector("form").addEventListener("submit", (ev) => {
           ev.preventDefault();
           p.signal(JSON.parse(document.querySelector("#incoming").value));
         });
+
+        ws.addEventListener("message", (event) => handleMessage(event, p));
 
         p.on("connect", () => {
           console.log("CONNECT");
@@ -55,6 +85,7 @@
 
         p.on("data", (data) => {
           console.log("data: " + data);
+          document.querySelector("#data").textContent = data;
         });
 
         p.on("stream", (stream) => {
