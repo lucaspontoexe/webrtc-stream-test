@@ -30,7 +30,7 @@
           JSON.stringify({
             from: id,
             payload: data,
-          }).replace('b=AS:30', 'b=AS:3000')
+          }).replace("b=AS:30", "b=AS:3000")
         );
       }
 
@@ -41,18 +41,21 @@
         p.signal(msg.payload);
       }
 
+      const isInitiator = location.hash === "#1";
+
       // get video/voice stream
-      navigator.mediaDevices
-        .getUserMedia({
-          video: {
-            width:  { ideal: 1920 },
-            height: { ideal: 1080 },
-            facingMode: "environment",
-          },
-          audio: true,
-        })
-        .then(gotMedia)
-        .catch(console.log);
+      function getMedia() {
+        if (isInitiator)
+          return navigator.mediaDevices.getUserMedia({
+            video: true,
+            audio: true,
+          });
+        // pra não incluir stream/mídia
+        return Promise.resolve(undefined);
+      }
+
+      // get video/voice stream
+      getMedia().then(gotMedia).catch(console.log);
 
       function gotMedia(stream) {
         p = new SimplePeer({
