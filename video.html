@@ -14,7 +14,7 @@
     <pre id="data"></pre>
     <pre id="outgoing"></pre>
 
-    <video id="preview"></video>
+    <video id="preview" controls></video>
 
     <script src="simplepeer.min.js"></script>
     <script>
@@ -47,7 +47,11 @@
       function getMedia() {
         if (isInitiator)
           return navigator.mediaDevices.getUserMedia({
-            video: true,
+            video: {
+              width: { ideal: 1920 },
+              height: { ideal: 1080 },
+              facingMode: "environment",
+            },
             audio: true,
           });
         // pra não incluir stream/mídia
