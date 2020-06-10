@@ -4,7 +4,7 @@ Test for one-way WebRTC video stream.
 
 ## Requirements
 
-A broadcast WebSocket server (like (https://github.com/lucaspontoexe/quick-websocket-server)[this one])
+A broadcast WebSocket server (like [this one](https://github.com/lucaspontoexe/quick-websocket-server))
 
 The device which is going to stream needs to load the page locally (or connect to a WSS server)
 
