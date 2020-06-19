@@ -1,5 +1,8 @@
 // bendito seja o stack overflow
 
+// https://stackoverflow.com/questions/16712224/how-to-control-bandwidth-in-webrtc-video-call#16868123
+// https://www.webrtc-experiment.com/BandwidthHandler.js
+
 var BandwidthHandler = (function() {
     function setBAS(sdp, bandwidth, isScreen) {
         if (!!navigator.mozGetUserMedia || !bandwidth) {
