@@ -18,7 +18,7 @@
 
     <script src="simplepeer.min.js"></script>
     <script>
-      const ws = new WebSocket("ws://192.168.0.15:9999");
+      const ws = new WebSocket("wss://webrtc-stream-test.vercel.app:9999");
 
       let id = Math.floor(Math.random() * 1000);
       document.querySelector("#incoming").onchange = (event) => {
