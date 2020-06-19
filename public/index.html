@@ -14,11 +14,11 @@
     <pre id="data"></pre>
     <pre id="outgoing"></pre>
 
-    <video id="preview" controls></video>
+    <video id="preview" controls autoplay></video>
 
     <script src="simplepeer.min.js"></script>
     <script>
-      const ws = new WebSocket("ws://192.168.0.36:9999");
+      const ws = new WebSocket("ws://192.168.0.15:9999");
 
       let id = Math.floor(Math.random() * 1000);
       document.querySelector("#incoming").onchange = (event) => {
@@ -30,7 +30,7 @@
           JSON.stringify({
             from: id,
             payload: data,
-          }).replace("b=AS:30", "b=AS:3000")
+          })
         );
       }
 
