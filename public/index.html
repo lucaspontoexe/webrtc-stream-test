@@ -1,20 +1,40 @@
 <html>
   <body>
     <style>
+      body {
+        background-color: black;
+      }
+
       #outgoing {
         width: 600px;
         word-wrap: break-word;
         white-space: normal;
       }
-    </style>
-    <form>
-      <textarea id="incoming"></textarea>
-      <button type="submit">submit</button>
-    </form>
-    <pre id="data"></pre>
-    <pre id="outgoing"></pre>
 
-    <video id="preview" controls autoplay></video>
+      video {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+      }
+
+      .form-and-data.hidden {
+        visibility: hidden;
+      }
+    </style>
+
+    <div class="form-and-data">
+      <form>
+        <textarea id="incoming"></textarea>
+        <button type="submit">submit</button>
+      </form>
+      <pre id="data"></pre>
+      <pre id="outgoing"></pre>
+    </div>
+
+    <video id="preview" autoplay></video>
 
     <script src="simplepeer.min.js"></script>
     <script src="BandwidthHandler.js"></script>
@@ -28,6 +48,8 @@
       document.querySelector("#incoming").onchange = (event) => {
         id = event.target.value;
       };
+
+      const form = document.querySelector(".form-and-data");
 
       function sendSDP(data) {
         ws.send(
@@ -71,7 +93,7 @@
           trickle: false,
           sdpTransform: (sdp) =>
             BandwidthHandler.setVideoBitrates(sdp, {
-              min: 2600,
+              min: 3600,
               max: 6400,
             }),
           stream,
@@ -109,9 +131,20 @@
           var video = document.querySelector("video");
 
           video.srcObject = stream;
-
           video.play();
+          form.classList.add("hidden");
         });
+
+        // pseudo-server stuff
+        if (stream) {
+          // don't repeat yourself; i know...
+          const video = document.querySelector("video");
+
+          video.srcObject = stream;
+          video.play();
+          form.classList.add("hidden");
+          document.requestFullscreen();
+        }
       }
     </script>
   </body>
