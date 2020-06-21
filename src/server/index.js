@@ -1,11 +1,12 @@
 const express = require("express");
 const WebSocket = require("ws");
+const path = require('path');
 const { generateID } = require("./generateID");
 
 const app = express();
 const wss = new WebSocket.Server({ port: 9999 });
 
-app.use(express.static("public"));
+app.use(express.static(path.resolve(__dirname, '..', 'client')));
 app.listen(8000);
 
 wss.on("connection", function connection(socket, request) {
