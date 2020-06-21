@@ -27,7 +27,7 @@ function handleReceiverConnect(socket) {
   socket.send(JSON.stringify(data));
 }
 
-function handleCallerConnect(socket, params) {
+function handleCallerConnect(callerSocket, params) {
   const receiverID = params.get("receiverID");
   let receiver;
 
@@ -40,10 +40,14 @@ function handleCallerConnect(socket, params) {
     if (client.connectionID === receiverID) receiver = client;
   });
 
-  if (!receiver) socket.send(JSON.stringify({error: 'receiverNotFound'}))
+  if (!receiver) {
+    callerSocket.send(JSON.stringify({ error: "receiverNotFound" }));
+    callerSocket.close();
+    return;
+  }
 
-  socket.on("message", (msg) => sendMsg(msg, socket));
-  receiver.on("message", (msg) => sendMsg(msg, receiver));
+  callerSocket.on("message", (msg) => sendMsg(msg, receiver));
+  receiver.on("message", (msg) => sendMsg(msg, callerSocket));
 }
 
 console.log("we runnin'");
