@@ -19,7 +19,7 @@ wss.on("connection", function connection(socket, request) {
 
 function handleReceiverConnect(socket) {
   const data = {
-    type: "signin",
+    type: "sign-in",
     connectionID: generateID(),
     recoveryID: "not_implemented",
   };
