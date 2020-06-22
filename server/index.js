@@ -6,7 +6,7 @@ const { generateID } = require("./generateID");
 const app = express();
 const wss = new WebSocket.Server({ port: 9999 });
 
-app.use(express.static(path.resolve(__dirname, '..', 'client')));
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'dist')));
 app.listen(8000);
 
 wss.on("connection", function connection(socket, request) {
