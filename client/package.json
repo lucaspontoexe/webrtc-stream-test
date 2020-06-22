@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "simple-peer": "^9.7.2",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "svelte-routing": "^1.4.2"
   }
 }
