@@ -1,7 +1,7 @@
 <script>
   import SimplePeer from "simple-peer";
 
-  const ws = new WebSocket("ws://localhost:9999?mode=receiver");
+  const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
   let id;
   let video;
   let showInfoPage = true;

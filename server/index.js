@@ -1,12 +1,15 @@
 const express = require("express");
 const WebSocket = require("ws");
-const path = require('path');
+const path = require("path");
 const { generateID } = require("./generateID");
 
 const app = express();
 const wss = new WebSocket.Server({ port: 9999 });
 
-app.use(express.static(path.resolve(__dirname, '..', 'client', 'public')));
+app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
+app.use("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname, "..", "client", "public", "index.html"))
+);
 app.listen(8000);
 
 wss.on("connection", function connection(socket, request) {
