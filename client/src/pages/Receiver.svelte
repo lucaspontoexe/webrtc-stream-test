@@ -46,6 +46,11 @@
         p.signal(msg.payload);
         break;
       case "sign-in":
+        if (id) {
+          console.warn("wait what", id);
+          return;
+        }
+
         id = msg.connectionID;
         break;
       default:
@@ -54,7 +59,7 @@
     }
   }
 
-  ws.addEventListener('open', startConnection)
+  ws.addEventListener("open", startConnection);
 </script>
 
 <main>
