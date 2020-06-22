@@ -1,3 +1,3 @@
 <div>
-camera
+camera. frickerino.
 </div>

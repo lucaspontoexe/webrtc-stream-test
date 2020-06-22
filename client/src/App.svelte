@@ -43,7 +43,7 @@
   <Router {url}>
     <Route path="/camera" component={Camera} />
     <Route path="/receiver" component={Receiver} />
-    <Route path="/" component={Home} />
+    <Route exact path="/" component={Home} />
   </Router>
 
 </main>

@@ -47,11 +47,14 @@
         break;
       case "sign-in":
         id = msg.connectionID;
+        break;
       default:
         console.warn("unknown message type", msg);
         break;
     }
   }
+
+  ws.addEventListener('open', startConnection)
 </script>
 
 <main>
