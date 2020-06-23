@@ -1,6 +1,5 @@
 <script>
   export let url = "";
-  export let name = "ala";
 
   import { Router, Link, Route } from "svelte-routing";
 
@@ -17,13 +16,6 @@
     margin: 0 auto;
   }
 
-  h1 {
-    color: #ff3e00;
-    text-transform: uppercase;
-    font-size: 1em;
-    font-weight: 100;
-  }
-
   @media (min-width: 640px) {
     main {
       max-width: none;
@@ -32,7 +24,7 @@
 </style>
 
 <main>
-  <h1>hi {name}</h1>
+
   <Router {url}>
     <Route path="/camera" component={Camera} />
     <Route path="/receiver" component={Receiver} />

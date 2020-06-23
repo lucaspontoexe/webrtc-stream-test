@@ -1,6 +1,6 @@
 <script>
   import SimplePeer from "simple-peer";
-  import { onDestroy } from 'svelte';
+  import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
   import "./video.css";
 
@@ -72,9 +72,15 @@
 </script>
 
 <main>
+
   {#if showInfoPage}
-    <div class="info">receiver page your ID is {id}</div>
+    <div class="info">
+      <h1>Enter https://example.com on your device <br /> and type this ID:</h1>
+      <h2>{id || '------'}</h2>
+
+    </div>
   {/if}
+
   <video bind:this={video} autoplay />
 
 </main>

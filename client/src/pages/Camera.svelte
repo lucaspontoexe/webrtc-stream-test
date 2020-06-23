@@ -111,8 +111,8 @@
   }
 
   onDestroy(() => {
-    p.destroy();
-    ws.close();
+    if (p) p.destroy();
+    if (ws) ws.close();
   });
 </script>
 
@@ -120,19 +120,24 @@
 
   {#if showInfoPage}
     <div class="info">
-      Type the ID that receiver is displaying, etc.
+      <label for="recv-id">
+        <h1>Enter the number displayed on screen </h1>
+      </label>
+
       <input
+        id="recv-id"
         type="number"
-        maxlength="6"
-        placeholder="receiver ID"
+        placeholder="Receiver ID"
         bind:value={receiverID} />
 
+      <br />
       <button on:click={init}>CONNECT</button>
 
       <div class="options">options: resolution, bandwidth, etc.</div>
 
     </div>
   {/if}
+
   <video bind:this={video} autoplay />
 
 </main>
