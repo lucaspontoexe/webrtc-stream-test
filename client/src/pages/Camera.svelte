@@ -1,6 +1,6 @@
 <script>
   import SimplePeer from "simple-peer";
-  import BandwidthHandler from "../lib/BandwidthHandler";
+  import { setVideoBitrates } from "../lib/BandwidthHandler";
 
   const params = Object.fromEntries(
     new URLSearchParams(window.location.search).entries()
@@ -11,7 +11,19 @@
   let ws;
   let receiverID = params.receiverID || undefined;
 
-  async function startConnection() {
+  function getMedia() {
+    // get media
+    return navigator.mediaDevices.getUserMedia({
+      video: {
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+        facingMode: "environment"
+      },
+      audio: true
+    });
+  }
+
+  async function startConnection(stream) {
     // get options from inputs
     // validate for no input
     // init websocket
@@ -25,33 +37,16 @@
 
     // get receiver ID
 
-
-    // get media
-    let stream;
-
-    try {
-      stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 1920 },
-          height: { ideal: 1080 },
-          facingMode: "environment"
-        },
-        audio: true
-      });
-    } catch (error) {
-      console.log("problemou: ", error);
-    }
-
     // init connection
     ws = new WebSocket(
       "ws://localhost:9999?c=d&mode=caller&receiverID=" + receiverID
     );
 
     const p = new SimplePeer({
-      initiator: false,
+      initiator: true,
       trickle: false,
       sdpTransform: sdp =>
-        BandwidthHandler.setVideoBitrates(sdp, {
+        setVideoBitrates(sdp, {
           min: 3600,
           max: 6400
         }),
@@ -59,7 +54,7 @@
     });
 
     p.on("error", err => console.log("error", err));
-    
+
     p.on("signal", data => {
       ws.send(
         JSON.stringify({
@@ -71,15 +66,16 @@
     });
 
     ws.addEventListener("message", event => handleMessage(event, p));
+    ws.addEventListener("error", console.warn);
 
     // show preview & log capabilities
     video.srcObject = stream;
-    const track = stream.getVideoTracks()[0]
-    console.log(track.getCapabilities())
-
+    const track = stream.getVideoTracks()[0];
+    console.log(track.getCapabilities());
+    console.log(track.getConstraints());
   }
 
-    // TODO: extract to file
+  // TODO: extract to file
   function handleMessage(event, p) {
     const msg = JSON.parse(event.data);
 
@@ -100,15 +96,25 @@
         break;
     }
   }
+
+  function init() {
+    getMedia()
+      .then(stream => startConnection(stream))
+      .catch(err => console.log("problemou", err));
+  }
 </script>
 
 <main>
 
   <div class="info">
     Type the ID that receiver is displaying, etc.
-    <input type="number" maxlength="6" placeholder="receiver ID" bind:value={receiverID}/>
+    <input
+      type="number"
+      maxlength="6"
+      placeholder="receiver ID"
+      bind:value={receiverID} />
 
-    <button on:click={startConnection}>CONNECT</button>
+    <button on:click={init}>CONNECT</button>
 
     <div class="options">options: resolution, bandwidth, etc.</div>
 

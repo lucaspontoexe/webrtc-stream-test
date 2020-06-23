@@ -1,6 +1,6 @@
 <script>
   import SimplePeer from "simple-peer";
-  import BandwidthHandler from "../lib/BandwidthHandler";
+  import { setVideoBitrates } from "../lib/BandwidthHandler";
 
   const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
   let id;
@@ -11,11 +11,11 @@
     const p = new SimplePeer({
       initiator: false,
       trickle: false,
-        // sdpTransform: sdp =>
-        //   BandwidthHandler.setVideoBitrates(sdp, {
-        //     min: 3600,
-        //     max: 6400
-        //   })
+      sdpTransform: sdp =>
+        setVideoBitrates(sdp, {
+          min: 3600,
+          max: 6400
+        })
     });
 
     p.on("error", err => console.log("error", err));
