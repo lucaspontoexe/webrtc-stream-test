@@ -1,5 +1,6 @@
 <script>
   import SimplePeer from "simple-peer";
+  import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
   import "./video.css";
 
@@ -10,6 +11,7 @@
   let video;
   let showInfoPage = true;
   let ws;
+  let p;
   let receiverID = params.receiverID || undefined;
 
   function getMedia() {
@@ -43,7 +45,7 @@
       "ws://localhost:9999?c=d&mode=caller&receiverID=" + receiverID
     );
 
-    const p = new SimplePeer({
+    p = new SimplePeer({
       initiator: true,
       trickle: false,
       sdpTransform: sdp =>
@@ -107,6 +109,11 @@
       .then(stream => startConnection(stream))
       .catch(err => console.log("problemou", err));
   }
+
+  onDestroy(() => {
+    p.destroy();
+    ws.close();
+  });
 </script>
 
 <main>

@@ -1,15 +1,17 @@
 <script>
   import SimplePeer from "simple-peer";
+  import { onDestroy } from 'svelte';
   import { setVideoBitrates } from "../lib/BandwidthHandler";
   import "./video.css";
 
   const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
+  let p;
   let id;
   let video;
   let showInfoPage = true;
 
   function startConnection() {
-    const p = new SimplePeer({
+    p = new SimplePeer({
       initiator: false,
       trickle: false,
       sdpTransform: sdp =>
@@ -62,6 +64,11 @@
   }
 
   ws.addEventListener("open", startConnection);
+
+  onDestroy(() => {
+    p.destroy();
+    ws.close();
+  });
 </script>
 
 <main>
