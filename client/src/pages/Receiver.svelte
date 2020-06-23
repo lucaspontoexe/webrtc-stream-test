@@ -1,6 +1,7 @@
 <script>
   import SimplePeer from "simple-peer";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
+  import "./video.css";
 
   const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
   let id;

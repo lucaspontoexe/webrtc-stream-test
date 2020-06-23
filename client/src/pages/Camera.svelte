@@ -1,6 +1,7 @@
 <script>
   import SimplePeer from "simple-peer";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
+  import "./video.css";
 
   const params = Object.fromEntries(
     new URLSearchParams(window.location.search).entries()
@@ -74,6 +75,8 @@
     const track = stream.getVideoTracks()[0];
     console.log(track.getCapabilities());
     console.log(track.getConstraints());
+
+    showInfoPage = false;
   }
 
   // TODO: extract to file
@@ -99,6 +102,7 @@
   }
 
   function init() {
+    // TODO: don't show gui if connection fails
     getMedia()
       .then(stream => startConnection(stream))
       .catch(err => console.log("problemou", err));
@@ -107,20 +111,21 @@
 
 <main>
 
-  <div class="info">
-    Type the ID that receiver is displaying, etc.
-    <input
-      type="number"
-      maxlength="6"
-      placeholder="receiver ID"
-      bind:value={receiverID} />
+  {#if showInfoPage}
+    <div class="info">
+      Type the ID that receiver is displaying, etc.
+      <input
+        type="number"
+        maxlength="6"
+        placeholder="receiver ID"
+        bind:value={receiverID} />
 
-    <button on:click={init}>CONNECT</button>
+      <button on:click={init}>CONNECT</button>
 
-    <div class="options">options: resolution, bandwidth, etc.</div>
+      <div class="options">options: resolution, bandwidth, etc.</div>
 
-  </div>
-
+    </div>
+  {/if}
   <video bind:this={video} autoplay />
 
 </main>

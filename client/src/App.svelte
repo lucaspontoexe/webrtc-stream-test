@@ -3,11 +3,10 @@
   export let name = "ala";
 
   import { Router, Link, Route } from "svelte-routing";
-  
+
   import Camera from "./pages/Camera.svelte";
   import Receiver from "./pages/Receiver.svelte";
   import Home from "./pages/Home.svelte";
-
 </script>
 
 <style>
@@ -21,7 +20,7 @@
   h1 {
     color: #ff3e00;
     text-transform: uppercase;
-    font-size: 4em;
+    font-size: 1em;
     font-weight: 100;
   }
 
@@ -33,13 +32,7 @@
 </style>
 
 <main>
-  <h1>Hello {name}!</h1>
-  <p>
-    Visit the
-    <a href="https://svelte.dev/tutorial">Svelte tutorial</a>
-    to learn how to build Svelte apps.
-  </p>
-
+  <h1>hi {name}</h1>
   <Router {url}>
     <Route path="/camera" component={Camera} />
     <Route path="/receiver" component={Receiver} />
