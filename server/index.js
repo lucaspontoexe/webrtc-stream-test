@@ -10,7 +10,7 @@ app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
 app.use("*", (req, res) =>
   res.sendFile(path.resolve(__dirname, "..", "client", "public", "index.html"))
 );
-app.listen(8000);
+app.listen(8080);
 
 wss.on("connection", function connection(socket, request) {
   const params = new URLSearchParams(request.url);
