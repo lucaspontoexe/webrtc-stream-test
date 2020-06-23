@@ -18,6 +18,8 @@ wss.on("connection", function connection(socket, request) {
 
   if (mode === "receiver") handleReceiverConnect(socket);
   if (mode === "caller") handleCallerConnect(socket, params);
+  console.log('we have', wss.clients.size, 'clients');
+  
 });
 
 function handleReceiverConnect(socket) {
