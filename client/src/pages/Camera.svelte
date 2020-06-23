@@ -23,7 +23,7 @@
     });
   }
 
-  async function startConnection(stream) {
+  function startConnection(stream) {
     // get options from inputs
     // validate for no input
     // init websocket
@@ -70,6 +70,7 @@
 
     // show preview & log capabilities
     video.srcObject = stream;
+    video.muted = true;
     const track = stream.getVideoTracks()[0];
     console.log(track.getCapabilities());
     console.log(track.getConstraints());
