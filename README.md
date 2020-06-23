@@ -4,13 +4,14 @@ Test for one-way WebRTC video stream.
 
 ## Requirements
 
-A broadcast WebSocket server (like [this one](https://github.com/lucaspontoexe/quick-websocket-server))
+Two devices (or two tabs) and a camera.
 
-The device which is going to stream needs to load the page locally (or connect to a WSS server)
+This is a demo. A better, self-hosted project is in development.
 
+## Instructions
 
-[wip]
+On the first device, enter [this page](lucaspontoexe.github.io/webrtc-stream-test/) 
 
-(page of) the device which is going to stream ```[address]/video.html#1```
+On your second device, enter the same address, but with a ```#``` and the number being displayed on screen at the end.
+e.g. ```lucaspontoexe.github.io/webrtc-stream-test#1234```
 
-(page of) the device which is going to receive  ```[address]/video.html```

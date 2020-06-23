@@ -30,6 +30,9 @@
         <textarea id="incoming"></textarea>
         <button type="submit">submit</button>
       </form>
+      <h1 style="color: white;">
+        ----
+      </h1>
       <pre id="data"></pre>
       <pre id="outgoing"></pre>
     </div>
@@ -40,14 +43,17 @@
     <script src="BandwidthHandler.js"></script>
 
     <script>
-      const ws = new WebSocket(
-        "wss://connect.websocket.in/v3/1?apiKey=UQgsYUKn3cQ5h2CBRqHbvKyeZ5vLCkn3WkNU2M354zfyaxVQsT8Ht3flTrg2"
-      );
+      let receiverID = location.hash.slice(1);
+      let id = String(Math.random()).slice(3, 7);
 
-      let id = Math.floor(Math.random() * 1000);
-      document.querySelector("#incoming").onchange = (event) => {
-        id = event.target.value;
-      };
+      const display = document.querySelector("h1");
+      display.innerText = id;
+
+      const ws = new WebSocket(
+        `wss://connect.websocket.in/v3/${
+          receiverID || id
+        }?apiKey=UQgsYUKn3cQ5h2CBRqHbvKyeZ5vLCkn3WkNU2M354zfyaxVQsT8Ht3flTrg2`
+      );
 
       const form = document.querySelector(".form-and-data");
 
@@ -67,7 +73,7 @@
         p.signal(msg.payload);
       }
 
-      const isInitiator = location.hash === "#1";
+      const isInitiator = location.hash !== "";
 
       // get video/voice stream
       function getMedia() {
