@@ -11,9 +11,8 @@
 <style>
   main {
     text-align: center;
-    padding: 1em;
-    max-width: 240px;
-    margin: 0 auto;
+    margin: 0px;
+    padding: 0px;
   }
 
   @media (min-width: 640px) {

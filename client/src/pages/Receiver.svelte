@@ -71,16 +71,68 @@
   });
 </script>
 
-<main>
+<style>
+  section {
+    background: #4c4c4c;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info {
+    margin: auto 0px;
+  }
+
+  sup {
+    font-weight: lighter;
+    font-size: 24pt;
+  }
+
+  h1 {
+    color: white;
+    font-size: 4em;
+    margin: 0;
+  }
+
+  .number {
+    color: white;
+    font-size: 8em;
+    margin: 10%;
+  }
+
+  .description {
+    color: #c8c8c8;
+    font-size: 2.3em;
+  }
+</style>
+
+<section>
 
   {#if showInfoPage}
     <div class="info">
-      <h1>Enter https://example.com on your device <br /> and type this ID:</h1>
-      <h2>{id || '------'}</h2>
+      <h1>
+        WebRTC Streamer
+        <sup>0.2</sup>
+      </h1>
+
+      <h2 class="description">
+        On your second device, enter
+        <br />
+        https://example.com/camera
+        <br />
+        and type this number:
+      </h2>
+
+      <h2 class="number">{id || '------'}</h2>
 
     </div>
   {/if}
 
   <video bind:this={video} autoplay />
 
-</main>
+</section>
