@@ -4,7 +4,7 @@ const path = require("path");
 const { generateID } = require("./generateID");
 
 const app = express();
-const wss = new WebSocket.Server({ port: 9999 });
+const wss = new WebSocket.Server({ port: process.env.WS_PORT || 9999 });
 
 app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
 app.use("*", (req, res) =>
