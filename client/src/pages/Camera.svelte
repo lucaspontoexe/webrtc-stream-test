@@ -57,7 +57,7 @@
       stream
     });
 
-    p.on("error", err => console.log("error", err));
+    p.on("error", handleError);
 
     p.on("signal", data => {
       ws.send(
@@ -70,7 +70,7 @@
     });
 
     ws.addEventListener("message", event => handleMessage(event, p));
-    ws.addEventListener("error", console.warn);
+    ws.addEventListener("error", handleError);
 
     // show preview & log capabilities
     video.srcObject = stream;
@@ -106,11 +106,16 @@
     }
   }
 
+  const handleError = err => {
+    console.warn("problemou", err);
+    console.dir(err);
+  };
+
   function init() {
     // TODO: don't show gui if connection fails
     getMedia()
       .then(stream => startConnection(stream))
-      .catch(err => console.log("problemou", err));
+      .catch(handleError);
   }
 
   onDestroy(() => {
