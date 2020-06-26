@@ -116,28 +116,97 @@
   });
 </script>
 
-<main>
+<style>
+  /* TODO: organize CSS */
+  section {
+    background: #4c4c4c;
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .info {
+    margin: auto 0px;
+  }
+
+  sup {
+    font-weight: lighter;
+    font-size: 12pt;
+  }
+
+  h1 {
+    color: white;
+    font-size: 2em;
+    margin: 0;
+  }
+
+  .description {
+    color: #c8c8c8;
+    font-size: 1em;
+  }
+
+  input {
+    -moz-appearance: textfield;
+    -webkit-appearance: textfield;
+    appearance: textfield;
+
+    border-radius: 5px;
+    width: 16em;
+    height: 50px;
+    font-size: 1.2em;
+    letter-spacing: 1.2em;
+    text-align: center;
+  }
+
+  .connect {
+    color: white;
+    background-color: #6184FF;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    height: 50px;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 1.4rem;
+  }
+</style>
+
+<section>
 
   {#if showInfoPage}
     <div class="info">
-      <label for="recv-id">
-        <h1>Enter the number displayed on screen </h1>
+
+      <h1>
+        WebRTC Streamer
+        <sup>0.2</sup>
+      </h1>
+
+      <label for="recv-id" class="description">
+        <h2>
+          Type the number being
+          <br />
+          displayed on screen
+        </h2>
       </label>
 
       <input
         id="recv-id"
         type="number"
-        placeholder="Receiver ID"
         bind:value={receiverID} />
 
       <br />
-      <button on:click={init}>CONNECT</button>
+      <button class="connect" on:click={init}>Connect</button>
 
-      <div class="options">options: resolution, bandwidth, etc.</div>
+      <!-- <div class="options">options: resolution, bandwidth, etc.</div> -->
 
     </div>
   {/if}
 
   <video bind:this={video} autoplay />
 
-</main>
+</section>
