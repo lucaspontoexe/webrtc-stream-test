@@ -194,13 +194,15 @@
         </h2>
       </label>
 
+    <form on:submit|preventDefault={init}>
       <input
         id="recv-id"
         type="number"
         bind:value={receiverID} />
 
       <br />
-      <button class="connect" on:click={init}>Connect</button>
+      <button class="connect" type="submit">Connect</button>
+    </form>
 
       <!-- <div class="options">options: resolution, bandwidth, etc.</div> -->
 
