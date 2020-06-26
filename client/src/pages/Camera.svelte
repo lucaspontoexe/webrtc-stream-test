@@ -2,6 +2,7 @@
   import SimplePeer from "simple-peer";
   import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
+  import darkenBackground from "../utils/darkenBackground";
   import "./video.css";
 
   const params = Object.fromEntries(
@@ -74,6 +75,8 @@
     // show preview & log capabilities
     video.srcObject = stream;
     video.muted = true;
+    darkenBackground();
+
     const track = stream.getVideoTracks()[0];
     console.log(track.getCapabilities());
     console.log(track.getConstraints());
@@ -119,7 +122,6 @@
 <style>
   /* TODO: organize CSS */
   section {
-    background: #4c4c4c;
     width: 100vw;
     height: 100vh;
     margin: 0px;
@@ -165,7 +167,7 @@
 
   .connect {
     color: white;
-    background-color: #6184FF;
+    background-color: #6184ff;
     border-radius: 10px;
     border: none;
     width: 100%;
@@ -194,15 +196,12 @@
         </h2>
       </label>
 
-    <form on:submit|preventDefault={init}>
-      <input
-        id="recv-id"
-        type="number"
-        bind:value={receiverID} />
+      <form on:submit|preventDefault={init}>
+        <input id="recv-id" type="number" bind:value={receiverID} />
 
-      <br />
-      <button class="connect" type="submit">Connect</button>
-    </form>
+        <br />
+        <button class="connect" type="submit">Connect</button>
+      </form>
 
       <!-- <div class="options">options: resolution, bandwidth, etc.</div> -->
 

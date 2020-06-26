@@ -2,6 +2,7 @@
   import SimplePeer from "simple-peer";
   import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
+  import darkenBackground from "../utils/darkenBackground";
   import "./video.css";
 
   const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
@@ -34,9 +35,10 @@
     });
 
     p.on("stream", stream => {
+      showInfoPage = false;
       video.srcObject = stream;
       video.play();
-      showInfoPage = false;
+      darkenBackground();
     });
 
     ws.addEventListener("message", event => handleMessage(event, p));
@@ -73,7 +75,6 @@
 
 <style>
   section {
-    background: #4c4c4c;
     width: 100vw;
     height: 100vh;
     margin: 0px;

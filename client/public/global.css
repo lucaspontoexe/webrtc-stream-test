@@ -5,7 +5,8 @@ html, body {
 }
 
 body {
-	background: black;
+	--bg-color: #4c4c4c;
+	background: var(--bg-color);
 	color: #333;
 	margin: 0;
 	padding: 0px;
