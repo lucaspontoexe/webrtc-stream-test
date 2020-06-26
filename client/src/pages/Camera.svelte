@@ -43,7 +43,7 @@
 
     // init connection
     ws = new WebSocket(
-      "ws://localhost:9999?c=d&mode=caller&receiverID=" + receiverID
+      "ws://localhost:8080?c=d&mode=caller&receiverID=" + receiverID
     );
 
     p = new SimplePeer({
