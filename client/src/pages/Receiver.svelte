@@ -5,7 +5,7 @@
   import darkenBackground from "../utils/darkenBackground";
   import "./video.css";
 
-  const ws = new WebSocket("ws://localhost:9999?a=b&mode=receiver");
+  const ws = new WebSocket("wss://webrtc-stream-test-ohlord.herokuapp.com:9999?a=b&mode=receiver");
   let p;
   let id;
   let video;
