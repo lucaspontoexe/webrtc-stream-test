@@ -43,7 +43,7 @@
 
     // init connection
     ws = new WebSocket(
-      "wss://webrtc-stream-test-ohlord.herokuapp.com:9999?c=d&mode=caller&receiverID=" + receiverID
+      "wss://webrtc-stream-test-ohlord.herokuapp.com?c=d&mode=caller&receiverID=" + receiverID
     );
 
     p = new SimplePeer({

@@ -4,13 +4,13 @@ const path = require("path");
 const { generateID } = require("./generateID");
 
 const app = express();
-const wss = new WebSocket.Server({ port: process.env.WS_PORT || 9999 });
 
 app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
 app.use("*", (req, res) =>
-  res.sendFile(path.resolve(__dirname, "..", "client", "public", "index.html"))
+res.sendFile(path.resolve(__dirname, "..", "client", "public", "index.html"))
 );
-app.listen(process.env.PORT || 8000);
+const httpServer = app.listen(process.env.PORT || 8080);
+const wss = new WebSocket.Server({ server: httpServer });
 
 wss.on("connection", function connection(socket, request) {
   const params = new URLSearchParams(request.url);
