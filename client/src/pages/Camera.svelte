@@ -27,10 +27,21 @@
     });
   }
 
+  function setupWebSocket() {
+    return new Promise((resolve, reject) => {
+      if (!receiverID) reject({ error: "no receiver" });
+      ws = new WebSocket(
+        "wss://webrtc-stream-test-ohlord.herokuapp.com?c=d&mode=caller&receiverID=" +
+          receiverID
+      );
+      ws.addEventListener("message", event => handleMessage(event, p));
+      ws.addEventListener("error", reject);
+
+      ws.addEventListener("open", resolve);
+    });
+  }
+
   function startConnection(stream) {
-    // get options from inputs
-    // validate for no input
-    // init websocket
     // on open, get media with constraints
     // add signalling listeners, init simplepeer
     // play video, hide connection page
@@ -40,11 +51,6 @@
     // but for now, just console.log them.
 
     // get receiver ID
-
-    // init connection
-    ws = new WebSocket(
-      "wss://webrtc-stream-test-ohlord.herokuapp.com?c=d&mode=caller&receiverID=" + receiverID
-    );
 
     p = new SimplePeer({
       initiator: true,
@@ -68,9 +74,6 @@
       );
       console.log("SIGNAL", data);
     });
-
-    ws.addEventListener("message", event => handleMessage(event, p));
-    ws.addEventListener("error", handleError);
 
     // show preview & log capabilities
     video.srcObject = stream;
@@ -113,7 +116,8 @@
 
   function init() {
     // TODO: don't show gui if connection fails
-    getMedia()
+    setupWebSocket()
+      .then(getMedia)
       .then(stream => startConnection(stream))
       .catch(handleError);
   }
