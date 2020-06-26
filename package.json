@@ -1,0 +1,30 @@
+{
+  "name": "webrtc-stream-test",
+  "version": "0.2.0",
+  "description": "Stream your device's camera",
+  "main": "server/index.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prestart": "cd client && npm run build",
+    "start": "node server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lucaspontoexe/webrtc-stream-test.git"
+  },
+  "keywords": [
+    "webrtc",
+    "streaming",
+    "camera",
+    "signalling",
+    "websocket"
+  ],
+  "author": "lucaspontoexe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lucaspontoexe/webrtc-stream-test/issues"
+  },
+  "homepage": "https://github.com/lucaspontoexe/webrtc-stream-test#readme"
+}
