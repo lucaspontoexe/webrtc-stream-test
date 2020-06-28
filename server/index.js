@@ -3,8 +3,10 @@ const WebSocket = require("ws");
 const path = require("path");
 const { generateID } = require("./generateID");
 
+const enforceHTTPS = require('./enforceHTTPS');
 const app = express();
 
+app.use(enforceHTTPS);
 app.use(express.static(path.resolve(__dirname, "..", "client", "public")));
 app.use("*", (req, res) =>
 res.sendFile(path.resolve(__dirname, "..", "client", "public", "index.html"))
