@@ -123,7 +123,10 @@
 
   onDestroy(() => {
     if (p) p.destroy();
-    if (ws) ws.close();
+    if (ws) {
+      ws.close();
+      ws = null;
+    }
   });
 </script>
 
