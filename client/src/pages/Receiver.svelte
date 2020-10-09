@@ -23,7 +23,13 @@
         })
     });
 
-    p.on("error", err => console.log("error", err));
+    p.on("error", err => {
+      console.log("error", err);
+      if (err === 'Transport channel closed')  {
+        p.destroy();
+        showInfoPage = true;
+      }
+  });
 
     p.on("signal", data => {
       ws.send(
@@ -54,8 +60,7 @@
         break;
       case "sign-in":
         if (id) {
-          console.warn("wait what", id);
-          return;
+          console.log("got new id", id);
         }
 
         id = msg.connectionID;
