@@ -25,7 +25,7 @@
 
     p.on("error", err => {
       console.log("error", err);
-      if (err === 'Transport channel closed')  {
+      if (err === 'RTCError: Transport channel closed')  {
         p.destroy();
         showInfoPage = true;
       }
