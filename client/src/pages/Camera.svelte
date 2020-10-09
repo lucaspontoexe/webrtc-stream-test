@@ -119,7 +119,7 @@
   const handleError = err => {
     console.warn("problemou", err);
     console.dir(err);
-    error = JSON.parse(err) || err
+    error = err;
   };
 
   async function init() {
