@@ -106,10 +106,10 @@
         id = msg.connectionID;
         break;
       case 'receiverNotFound':
-        ws.close();
-        p.destroy();
         showInfoPage = true;
         handleError('receiver not found');
+        ws.close();
+        // p.destroy();
       default:
         console.warn("unknown message type", msg);
         break;
