@@ -49,7 +49,7 @@ function handleCallerConnect(callerSocket, params) {
   });
 
   if (!receiver) {
-    callerSocket.send(JSON.stringify({ error: "receiverNotFound" }));
+    callerSocket.send(JSON.stringify({type: "receiverNotFound" }));
     callerSocket.close();
     return;
   }

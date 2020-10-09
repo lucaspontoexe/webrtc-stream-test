@@ -1,5 +1,6 @@
 <script>
   import SimplePeer from "simple-peer";
+  import ReconnectingWebsocket from '@yunyu/reconnecting-websocket';
   import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
   import darkenBackground from "../utils/darkenBackground";
@@ -14,6 +15,7 @@
   let ws;
   let p;
   let receiverID = params.receiverID || undefined;
+  let error;
 
   function getMedia() {
     // get media
@@ -30,7 +32,7 @@
   function setupWebSocket() {
     return new Promise((resolve, reject) => {
       if (!receiverID) reject({ error: "no receiver" });
-      ws = new WebSocket(
+      ws = new ReconnectingWebsocket(
         "wss://webrtc-stream-test-ohlord.herokuapp.com?c=d&mode=caller&receiverID=" +
           receiverID
       );
@@ -103,6 +105,11 @@
 
         id = msg.connectionID;
         break;
+      case 'receiverNotFound':
+        ws.close();
+        p.destroy();
+        showInfoPage = true;
+        handleError('receiver not found');
       default:
         console.warn("unknown message type", msg);
         break;
@@ -112,14 +119,18 @@
   const handleError = err => {
     console.warn("problemou", err);
     console.dir(err);
+    error = JSON.parse(err) || err
   };
 
-  function init() {
+  async function init() {
     // TODO: don't show gui if connection fails
-    setupWebSocket()
-      .then(getMedia)
-      .then(stream => startConnection(stream))
-      .catch(handleError);
+    try {
+    await setupWebSocket()
+    const stream = await (getMedia())
+    startConnection(stream)
+    } catch (error) {
+     handleError(err) 
+    }
   }
 
   onDestroy(() => {
@@ -217,6 +228,13 @@
     </div>
   {/if}
 
+  {#if error}
+  <div class="error">
+    {error}
+  </div>
+  {/if}
+
+  <!-- svelte-ignore a11y-media-has-caption -->
   <video bind:this={video} autoplay />
 
 </section>

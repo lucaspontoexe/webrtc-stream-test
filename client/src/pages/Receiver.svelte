@@ -1,11 +1,12 @@
 <script>
   import SimplePeer from "simple-peer";
+  import ReconnectingWebsocket from '@yunyu/reconnecting-websocket';
   import { onDestroy } from "svelte";
   import { setVideoBitrates } from "../lib/BandwidthHandler";
   import darkenBackground from "../utils/darkenBackground";
   import "./video.css";
 
-  const ws = new WebSocket("wss://webrtc-stream-test-ohlord.herokuapp.com?a=b&mode=receiver");
+  const ws = new ReconnectingWebsocket("wss://webrtc-stream-test-ohlord.herokuapp.com?a=b&mode=receiver");
   let p;
   let id;
   let video;
@@ -134,6 +135,7 @@
     </div>
   {/if}
 
+  <!-- svelte-ignore a11y-media-has-caption -->
   <video bind:this={video} autoplay />
 
 </section>
